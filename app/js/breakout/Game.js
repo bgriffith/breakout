@@ -1,10 +1,10 @@
-'use strict';
-
 import Stage from './Stage';
+import Bricks from './Bricks';
 
 class Game {
   /**
    * Constructor of Game
+   * @constructor
    * @param {int} width - Width of canvas
    * @param {int} height - Height of canvas
    * @param {string} id - Id of parent wrapper
@@ -19,6 +19,7 @@ class Game {
     this.context = null;
     this.stage = null;
     this.wrapper = null;
+    this.bricks = null;
   }
 
   /**
@@ -29,6 +30,7 @@ class Game {
     this.canvas = this._setupCanvas();
     this.context = this._setupCanvasContext();
     this.stage = this._setupStage();
+    this.bricks = this._setupBricks();
   }
 
   /**
@@ -70,14 +72,25 @@ class Game {
   }
 
   /**
+   * Create the bricks
+   * @returns {object} Bricks instance
+   */
+  _setupBricks() {
+    return new Bricks(this.context);
+  }
+
+  /**
    * Render all elements
    */
   _render() {
     // Draw the game's stage
     this.stage.draw();
 
-    // Append to wrapper to make visible
-    this.wrapper.appendChild(this.canvas);
+    // Draw the game's bricks
+    this.bricks.draw();
+
+    // Create the game loop
+    window.requestAnimationFrame(this._render.bind(this));
   }
 
   /**
@@ -86,6 +99,9 @@ class Game {
   init() {
     // Setup game
     this._setup();
+
+    // Append to wrapper to make visible
+    this.wrapper.appendChild(this.canvas);
 
     // Render game
     this._render();
