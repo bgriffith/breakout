@@ -34,7 +34,7 @@ class Brick {
    * @returns {int} x coord of top-left corner
    */
   _calculateX() {
-    return (this.columnMultiplier * (this.width + this.margin)) + this.offsetLeft;
+    return this.columnMultiplier * (this.width + this.margin) + this.offsetLeft;
   }
 
   /**
@@ -42,7 +42,7 @@ class Brick {
    * @returns {int} y coord of top-left corner
    */
   _calculateY() {
-    return (this.rowMultiplier * (this.height + this.margin)) + this.offsetTop;
+    return this.rowMultiplier * (this.height + this.margin) + this.offsetTop;
   }
 
   /**

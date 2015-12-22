@@ -26,11 +26,12 @@ class Bricks {
 
   /**
    * Recursively setup the columns of the brick's array
-   * @param {int} [columnId=0] - Id of column
+   * @param {int} [currentColumnId=0] - Id of column
    * @returns {bool} true - Returns true once complete
    */
-  _setupColumn(columnId = 0) {
-    let rowId = 0;
+  _setupColumn(currentColumnId = 0) {
+    let columnId = currentColumnId,
+        rowId = 0;
 
     // Create array for each column to hold rows
     this.bricks[columnId] = [];
@@ -49,17 +50,20 @@ class Bricks {
 
   /**
   * Recursively setup a column's rows
-  * @param {int} rowId - Id of row
-  * @param {int} columnId - Id of column
+  * @param {int} currentRowId - Id of row
+  * @param {int} currentColumnId - Id of column
   * @returns {bool} true - Returns true once complete
   */
-  _setupRow(rowId, columnId) {
+  _setupRow(currentRowId, currentColumnId) {
+    let columnId = currentColumnId,
+        rowId = currentRowId;
+
+    // Create an instance of Brick and store it in the bricks array
     this.bricks[columnId][rowId] = this._setupBrick(columnId, rowId);
 
     // If not last row increase index and call itself
     if (rowId < this.rowCount - 1) {
       rowId++;
-
       this._setupRow(rowId, columnId);
     }
 
@@ -78,11 +82,12 @@ class Bricks {
 
   /**
    * Recursively go through the columns of the brick's array
-   * @param {int} columnId - Id of column to draw bricks of
+   * @param {int} currentColumnId - Id of column to draw bricks of
    * @returns {bool} true - Returns true once complete
    */
-  _drawColumn(columnId = 0) {
-    let rowId = 0;
+  _drawColumn(currentColumnId = 0) {
+    let columnId = currentColumnId,
+        rowId = 0;
 
     // Recursively go through and draw each row
     this._drawRow(rowId, columnId);
@@ -98,12 +103,15 @@ class Bricks {
 
   /**
    * Recursively draw a column's rows
-   * @param {int} rowId - Id of row
-   * @param {int} columnId - Id of column
+   * @param {int} currentRowId - Id of row
+   * @param {int} currentColumnId - Id of column
    * @returns {bool} true - Returns true once complete
    */
-  _drawRow(rowId, columnId) {
-    // Check that brick should be visible
+  _drawRow(currentRowId, currentColumnId) {
+    let columnId = currentColumnId,
+        rowId = currentRowId;
+
+    // Check that brick should be visible and draw
     if (this.bricks[columnId][rowId].status === 1) {
       this.bricks[columnId][rowId].draw();
     }
