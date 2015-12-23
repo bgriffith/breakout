@@ -1,5 +1,6 @@
 import Stage from './Stage';
 import Bricks from './Bricks';
+import Ball from './Ball';
 
 class Game {
   /**
@@ -20,6 +21,7 @@ class Game {
     this.stage = null;
     this.wrapper = null;
     this.bricks = null;
+    this.ball = null;
   }
 
   /**
@@ -31,6 +33,7 @@ class Game {
     this.context = this._setupCanvasContext();
     this.stage = this._setupStage();
     this.bricks = this._setupBricks();
+    this.ball = this._setupBall();
   }
 
   /**
@@ -80,6 +83,14 @@ class Game {
   }
 
   /**
+   * Create the ball
+   * @returns {object} Ball instance
+   */
+  _setupBall() {
+    return new Ball(this.context, this.width, this.height);
+  }
+
+  /**
    * Render all elements
    */
   _render() {
@@ -88,6 +99,9 @@ class Game {
 
     // Draw the game's bricks
     this.bricks.draw();
+
+    // Draw the game's ball
+    this.ball.draw();
 
     // Create the game loop
     window.requestAnimationFrame(this._render.bind(this));
