@@ -1,6 +1,7 @@
 import Stage from './Stage';
 import Bricks from './Bricks';
 import Ball from './Ball';
+import Paddle from './Paddle';
 
 class Game {
   /**
@@ -22,6 +23,7 @@ class Game {
     this.wrapper = null;
     this.bricks = null;
     this.ball = null;
+    this.paddle = null;
   }
 
   /**
@@ -34,6 +36,7 @@ class Game {
     this.stage = this._setupStage();
     this.bricks = this._setupBricks();
     this.ball = this._setupBall();
+    this.paddle = this._setupPaddle();
   }
 
   /**
@@ -91,6 +94,53 @@ class Game {
   }
 
   /**
+   * Create the paddle
+   * @returns {object} Paddle instance
+   */
+  _setupPaddle() {
+    return new Paddle(this.context, this.width, this.height);
+  }
+
+  /**
+   * Bind required event handlers to our document object
+   */
+  _bindEvents() {
+    document.addEventListener('keydown', this._keydownHandler.bind(this), false);
+    document.addEventListener('keyup', this._keyupHandler.bind(this), false);
+  }
+
+  /**
+   * Keydown event handler
+   * @param {object} event - The keydown event object
+   */
+  _keydownHandler(event) {
+    let keyCode = event.keyCode;
+
+    // Left arrow key
+    if (keyCode === 37) {
+      this.paddle.move = 'left';
+    }
+
+    // Right arrow key
+    if (keyCode === 39) {
+      this.paddle.move = 'right';
+    }
+  }
+
+  /**
+   * Keyup event handler
+   * @param {object} event - The keyup event object
+   */
+   _keyupHandler(event) {
+     let keyCode = event.keyCode;
+
+     // Left arrow key
+     if (keyCode === 37 || keyCode === 39) {
+       this.paddle.move = false;
+     }
+   }
+
+  /**
    * Render all elements
    */
   _render() {
@@ -103,6 +153,9 @@ class Game {
     // Draw the game's ball
     this.ball.draw();
 
+    // Draw the game's paddle
+    this.paddle.draw();
+
     // Create the game loop
     window.requestAnimationFrame(this._render.bind(this));
   }
@@ -113,6 +166,9 @@ class Game {
   init() {
     // Setup game
     this._setup();
+
+    // Bind required events
+    this._bindEvents();
 
     // Append to wrapper to make visible
     this.wrapper.appendChild(this.canvas);
