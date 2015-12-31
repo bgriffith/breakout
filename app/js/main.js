@@ -2,6 +2,7 @@
 
 import * as Breakout from './breakout/Game';
 
-var game = new Breakout.Game();
-
-game.init();
+(() => {
+  let game = new Breakout.Game();
+  game.init();
+})();
