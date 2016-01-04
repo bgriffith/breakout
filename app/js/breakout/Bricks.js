@@ -1,4 +1,5 @@
 import Brick from './Brick';
+import Particles from './Particles';
 
 class Bricks {
   /**
@@ -114,6 +115,11 @@ class Bricks {
     // Check that brick should be visible and draw
     if (this.bricks[columnId][rowId].status === 1) {
       this.bricks[columnId][rowId].draw();
+    } else {
+      if (!this.bricks[columnId][rowId].particles) {
+        this.bricks[columnId][rowId].particles = new Particles(this.context, this.bricks[columnId][rowId]);
+      }
+      this.bricks[columnId][rowId].particles.draw();
     }
 
     // If not last row increase index and call itself
