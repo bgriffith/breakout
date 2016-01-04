@@ -3,8 +3,7 @@ class CollisionDetection {
    * Constructor of Collision Detection
    * @constructor
    */
-  constructor(context) {
-    this.context = context;
+  constructor() {
     this.bricks = null;
     this.ball = null;
     this.columnCount = null;

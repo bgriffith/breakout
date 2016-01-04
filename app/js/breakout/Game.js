@@ -109,7 +109,7 @@ class Game {
    * @returns {object} Collision detection instance
    */
   _setupCollisionDetection() {
-    return new CollisionDetection(this.context);
+    return new CollisionDetection();
   }
 
   /**
