@@ -3,7 +3,8 @@ class CollisionDetection {
    * Constructor of Collision Detection
    * @constructor
    */
-  constructor() {
+  constructor(context) {
+    this.context = context;
     this.bricks = null;
     this.ball = null;
     this.columnCount = null;
@@ -64,11 +65,12 @@ class CollisionDetection {
 
     // Only detect collision on visible bricks
     if (brick.status === 1) {
-
       // Check if ball's x and y are within the coords of a brick
       if (
-        (this.ball.x > brick.x && this.ball.x < brick.x + brick.width)
-        && (this.ball.y > brick.y && this.ball.y < brick.y + brick.height)
+        this.ball.x > brick.x
+        && this.ball.x < brick.x + brick.width
+        && this.ball.y > brick.y
+        && this.ball.y < brick.y + brick.height
       ) {
         this.ball.dy = -this.ball.dy;
 
