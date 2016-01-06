@@ -2,6 +2,7 @@ import Stage from './Stage';
 import Bricks from './Bricks';
 import Ball from './Ball';
 import Paddle from './Paddle';
+import CollisionDetection from './CollisionDetection';
 
 class Game {
   /**
@@ -24,6 +25,7 @@ class Game {
     this.bricks = null;
     this.ball = null;
     this.paddle = null;
+    this.collisionDetection = null;
   }
 
   /**
@@ -37,6 +39,7 @@ class Game {
     this.bricks = this._setupBricks();
     this.ball = this._setupBall();
     this.paddle = this._setupPaddle();
+    this.collisionDetection = this._setupCollisionDetection();
   }
 
   /**
@@ -102,6 +105,14 @@ class Game {
   }
 
   /**
+   * Create the collision detection
+   * @returns {object} Collision detection instance
+   */
+  _setupCollisionDetection() {
+    return new CollisionDetection();
+  }
+
+  /**
    * Bind required event handlers to our document object
    */
   _bindEvents() {
@@ -155,6 +166,9 @@ class Game {
 
     // Draw the game's paddle
     this.paddle.draw();
+
+    // Run collision detection
+    this.collisionDetection.run(this.bricks, this.ball);
 
     // Create the game loop
     window.requestAnimationFrame(this._render.bind(this));
