@@ -12,6 +12,7 @@ class Particles {
     this.brick = brick;
     this.particles = [];
     this.maxDistance = 20;
+    this.particleColor = '#000';
     this.particleCount = 8;
     this.distanceCounter = 0;
 
@@ -49,7 +50,7 @@ class Particles {
    * @return {object} Instance of Particle
    */
   _setupParticle(brick) {
-    return new Particle(this.context, brick);
+    return new Particle(this.context, brick, this.particleColor);
   }
 
   /**

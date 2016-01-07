@@ -5,11 +5,13 @@ class Particle {
    * Represents a Particle
    * @constructor
    * @param {object} context - The canvas context on which to draw
-   * @param {object} brick -  The parent brick
+   * @param {object} brick - The parent brick
+   * @param {object} color - Color of the particle
    */
-  constructor(context, brick) {
+  constructor(context, brick, color = '#000') {
     this.context = context;
     this.brick = brick;
+    this.color = color;
     this.rotation = Math.random() * 360;
     this.x = this.brick.x + this.brick.width / 2;
     this.y = this.brick.y + this.brick.height / 2;
@@ -37,7 +39,7 @@ class Particle {
     this.context.moveTo(this.x, this.y);
     this.context.lineTo(this.x, this.y + 1);
     this.context.lineWidth = 1;
-    this.context.strokeStyle = '#000';
+    this.context.strokeStyle = this.color;
     this.context.stroke();
   }
 
