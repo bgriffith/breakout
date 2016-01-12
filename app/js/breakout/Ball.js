@@ -1,27 +1,50 @@
+import User from './User';
+import Paddle from './Paddle';
+
 class Ball {
   /**
    * Represents the Ball
    * @constructor
-   * @param {object} context - The canvas context on which to draw
-   * @param {int} canvasWidth -  Width of canvas
-   * @param {int} canvasHeight - Height of canvas
    * @param {string} color - Fill color of ball
    * @param {int} radius - Radius of ball
    */
-  constructor(context, canvasWidth, canvasHeight, color = '#000', radius = 6) {
+  constructor(color = '#000', radius = 6) {
+    this.color = color;
+    this.radius = radius;
+    this.dx = 2; // Initial x-axis directional value
+    this.dy = -2; // Initial y-axis directional value
+    this.events = {
+      clear: new Event('clear'),
+      reset: new Event('reset'),
+    };
+  }
+
+  /**
+   * Initialise class
+   * @param {object} context - The canvas context on which to draw
+   * @param {int} canvasWidth -  Width of canvas
+   * @param {int} canvasHeight - Height of canvas
+   */
+  init(context, canvasWidth = 480, canvasHeight = 320) {
     this.context = context;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.x = this.canvasWidth / 2;
     this.y = 200;
-    this.color = color;
-    this.radius = radius;
-    this.dx = 2; // Initial x-axis directional value
-    this.dy = -2; // Initial y-axis directional value
+
+    this._bindEvents();
   }
 
   /**
-   * Configure the direction values of the ball for the next frame
+   * Bind the ball's events
+   */
+  _bindEvents() {
+    document.addEventListener('reset', this.reset.bind(this), false);
+    document.addEventListener('clear', this.clear.bind(this), false);
+  }
+
+  /**
+   * Calculate the position of the ball for the next frame
    */
   _setupFrame() {
     // Check horizontal boundries and bounce off bounding box
@@ -32,9 +55,13 @@ class Ball {
     // Check vertical boundries and bound off bounding box (top only)
     if (this.y + this.dy < this.radius) {
       this.dy = -this.dy;
-    } else if (this.y + this.dy > this.canvasHeight - this.radius) {
+    } else if (this.y + this.dy > this.canvasHeight - this.radius - Paddle.height) {
       // TODO: Check that ball hit's paddle
-      this.dy = -this.dy;
+      if (this.x > Paddle.x && this.x < Paddle.x + Paddle.width) {
+        this.dy = -this.dy;
+      } else {
+        document.dispatchEvent(User.events.loseLife);
+      }
     }
 
     // Apply directional values
@@ -57,6 +84,26 @@ class Ball {
   }
 
   /**
+   * Reset the ball's position
+   */
+  reset() {
+    this.x = this.canvasWidth / 2;
+    this.y = this.canvasHeight / 2;
+    this.dx = 2;
+    this.dy = -2;
+  }
+
+  /**
+   * Clear the ball's velocity
+   */
+  clear() {
+    setTimeout(() => {
+      this.dx = 0;
+      this.dy = 0;
+    }, 1000);
+  }
+
+  /**
    * Calculate the next frame and update the ball
    */
   draw() {
@@ -64,4 +111,4 @@ class Ball {
   }
 }
 
-export default Ball;
+export default new Ball();

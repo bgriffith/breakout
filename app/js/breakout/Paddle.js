@@ -2,22 +2,40 @@ class Paddle {
   /**
    * Represents the Paddle
    * @constructor
-   * @param {object} context - The canvas context on which to draw
-   * @param {int} canvasWidth -  Width of canvas
-   * @param {int} canvasHeight - Height of canvas
    * @param {string} color - Fill color of ball
    */
-  constructor(context, canvasWidth, canvasHeight, color = '#000') {
-    this.context = context;
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
+  constructor(color = '#000') {
     this.color = color;
     this.width = 75;
     this.height = 10;
-    this.x = (this.canvasWidth - this.width) / 2;
-    this.y = this.canvasHeight - this.height;
     this.move = false;
     this.dx = 10; // The value to add or remove from x-axis coord of the paddle
+    this.events = {
+      reset: new Event('reset')
+    };
+  }
+
+  /**
+   * Initialise class
+   * @param {object} context - The canvas context on which to draw
+   * @param {int} canvasWidth -  Width of canvas
+   * @param {int} canvasHeight - Height of canvas
+   */
+  init(context, canvasWidth, canvasHeight) {
+    this.context = context;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.x = (this.canvasWidth - this.width) / 2;
+    this.y = this.canvasHeight - this.height;
+
+    this._bindEvents();
+  }
+
+  /**
+   * Bind the paddle events
+   */
+  _bindEvents() {
+    document.addEventListener('reset', this.reset.bind(this), false);
   }
 
   /**
@@ -61,6 +79,10 @@ class Paddle {
     this.context.closePath();
   }
 
+  reset() {
+    this.x = (this.canvasWidth - this.width) / 2;
+  }
+
   /**
    * Calculate the next frame and update the paddle
    */
@@ -69,4 +91,4 @@ class Paddle {
   }
 }
 
-export default Paddle;
+export default new Paddle();

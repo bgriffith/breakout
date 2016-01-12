@@ -1,3 +1,5 @@
+import Ball from './Ball';
+
 class CollisionDetection {
   /**
    * Constructor of Collision Detection
@@ -5,7 +7,6 @@ class CollisionDetection {
    */
   constructor() {
     this.bricks = null;
-    this.ball = null;
     this.columnCount = null;
     this.rowCount = null;
   }
@@ -53,11 +54,10 @@ class CollisionDetection {
     return true;
   }
 
-
   /**
    * Detect collision between ball and brick
-   * @param {int} columnId -
-   * @param {int} rowId -
+   * @param {int} columnId - The id of the brick's column
+   * @param {int} rowId - The id of the bricks's row
    */
   _detectCollision(columnId, rowId) {
     let brick = this.bricks[columnId][rowId];
@@ -66,12 +66,12 @@ class CollisionDetection {
     if (brick.status === 1) {
       // Check if ball's x and y are within the coords of a brick
       if (
-        this.ball.x > brick.x
-        && this.ball.x < brick.x + brick.width
-        && this.ball.y > brick.y
-        && this.ball.y < brick.y + brick.height
+        Ball.x > brick.x
+        && Ball.x < brick.x + brick.width
+        && Ball.y > brick.y
+        && Ball.y < brick.y + brick.height
       ) {
-        this.ball.dy = -this.ball.dy;
+        Ball.dy = -Ball.dy;
 
         // Set status to 0 which will hide brick from next frame
         this.bricks[columnId][rowId].status = 0;
@@ -82,13 +82,11 @@ class CollisionDetection {
   /**
    * Run collision detection
    * @param {object} bricks - The Bricks
-   * @param {object} ball - The Ball
    */
-  run(bricks, ball) {
+  run(bricks) {
     this.bricks = bricks.bricks;
     this.columnCount = bricks.columnCount;
     this.rowCount = bricks.rowCount;
-    this.ball = ball;
 
     this._getColumn();
   }
