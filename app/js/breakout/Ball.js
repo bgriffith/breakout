@@ -15,7 +15,7 @@ class Ball {
     this.dy = -2; // Initial y-axis directional value
     this.events = {
       clear: new Event('clear'),
-      reset: new Event('reset'),
+      reset: new Event('reset')
     };
   }
 
