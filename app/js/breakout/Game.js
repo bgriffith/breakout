@@ -23,8 +23,6 @@ class Game {
     this.stage = null;
     this.wrapper = null;
     this.bricks = null;
-    this.ball = null;
-    this.paddle = null;
     this.collisionDetection = null;
   }
 
@@ -37,8 +35,8 @@ class Game {
     this.context = this._setupCanvasContext();
     this.stage = this._setupStage();
     this.bricks = this._setupBricks();
-    this.ball = this._setupBall();
-    this.paddle = this._setupPaddle();
+    this._setupPaddle();
+    this._setupBall();
     this.collisionDetection = this._setupCollisionDetection();
   }
 
@@ -89,19 +87,17 @@ class Game {
   }
 
   /**
-   * Create the ball
-   * @returns {object} Ball instance
+   * Create the paddle
    */
-  _setupBall() {
-    return new Ball(this.context, this.width, this.height);
+  _setupPaddle() {
+    Paddle.init(this.context, this.width, this.height);
   }
 
   /**
-   * Create the paddle
-   * @returns {object} Paddle instance
+   * Create the ball
    */
-  _setupPaddle() {
-    return new Paddle(this.context, this.width, this.height);
+  _setupBall() {
+    Ball.init(this.context, this.width, this.height);
   }
 
   /**
@@ -129,12 +125,12 @@ class Game {
 
     // Left arrow key
     if (keyCode === 37) {
-      this.paddle.move = 'left';
+      Paddle.move = 'left';
     }
 
     // Right arrow key
     if (keyCode === 39) {
-      this.paddle.move = 'right';
+      Paddle.move = 'right';
     }
   }
 
@@ -147,7 +143,7 @@ class Game {
 
      // Left arrow key
      if (keyCode === 37 || keyCode === 39) {
-       this.paddle.move = false;
+       Paddle.move = false;
      }
    }
 
@@ -162,10 +158,10 @@ class Game {
     this.bricks.draw();
 
     // Draw the game's ball
-    this.ball.draw();
+    Ball.draw();
 
     // Draw the game's paddle
-    this.paddle.draw();
+    Paddle.draw();
 
     // Run collision detection
     this.collisionDetection.run(this.bricks, this.ball);
